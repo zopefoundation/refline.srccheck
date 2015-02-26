@@ -26,12 +26,15 @@ setup(
     url="http://pypi.python.org/pypi/refline.srccheck/",
     install_requires=[
         'setuptools',
-        'pyflakes', 
+        'pyflakes',
         'polib',
         'cssutils',
     ],
     extras_require=dict(
-        test=[]),
+        test=(
+            'zope.testing',
+        ),
+    ),
     packages=find_packages('src'),
     package_dir={'': 'src'},
 
