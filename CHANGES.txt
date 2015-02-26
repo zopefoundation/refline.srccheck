@@ -4,7 +4,7 @@ CHANGES
 0.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- changed checker.checker to accept a module or path
 
 
 0.7.0 (2015-02-26)

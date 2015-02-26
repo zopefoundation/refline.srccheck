@@ -343,15 +343,18 @@ class checker(object):
     checks = None
     extensions = None
 
-    def __init__(self, module, checks=CHECKS, ignoreFiles=()):
-        self.module = module
+    def __init__(self, module_or_path, checks=CHECKS, ignoreFiles=()):
+        self.module_or_path = module_or_path
         self.checks = checks
 
         self.extensions = tuple(checks.keys())
         self.ignoreFiles = ignoreFiles
 
     def run(self):
-        top = os.path.dirname(self.module.__file__)
+        if isinstance(self.module_or_path, STR):
+            top = self.module_or_path
+        else:
+            top = os.path.dirname(self.module_or_path.__file__)
 
         for root, dirs, files in os.walk(top, topdown=True):
             #keep the name order
