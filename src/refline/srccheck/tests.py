@@ -13,15 +13,18 @@
 ##############################################################################
 """
 
-$Id$
+$Id: tests.py 130168 2013-03-26 23:51:48Z alga $
 """
 import unittest
 import doctest
+import re
+
+from zope.testing.renormalizing import RENormalizing
 
 
 def test_suite():
-    return unittest.TestSuite((
-        doctest.DocFileSuite('README.txt',
-            optionflags=doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS,
-            ),
-        ))
+    return doctest.DocFileSuite(
+        'README.txt',
+        optionflags=doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS,
+        checker=RENormalizing([(re.compile(u"u':'"), "':'")])
+        )

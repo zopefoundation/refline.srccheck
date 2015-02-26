@@ -6,4 +6,4 @@ def doit():
     foo = bar
 
 def with_tab():
-	print "there's a tab"
+	print("there's a tab")

@@ -26,6 +26,11 @@ from refline.srccheck import pyflakes
 
 INDENT = '  '
 
+try:
+    STR = basestring   # Py2
+except NameError:
+    STR = str          # Py3
+
 
 class BaseChecker(object):
     fnameprinted = False
@@ -39,19 +44,19 @@ class BaseChecker(object):
             filename = self.filename.replace('\\', '/')
             filename = filename[len(self.basename) + 1:]
             print
-            print filename
-            print '-' * len(filename)
+            print(filename)
+            print('-' * len(filename))
             self.fnameprinted = True
 
-        print "%s%s" % (INDENT, self.error)
+        print("%s%s" % (INDENT, self.error))
 
         if noInfo:
             return
 
         lineidx = str(lineidx + 1) + ': '
-        print "%s%s%s" % (INDENT, lineidx, line)
+        print("%s%s%s" % (INDENT, lineidx, line))
         if pos is not None:
-            print "%s%s^" % (INDENT, ' ' * (len(lineidx) + pos))
+            print("%s%s^" % (INDENT, ' ' * (len(lineidx) + pos)))
 
     def check(self, filename, content, lines):
         pass
@@ -143,10 +148,10 @@ class PyflakesChecker(BaseChecker):
         content = self.fixcontent(lines)
         try:
             result = pyflakes.check(content, filename)
-        except Exception, e:
+        except Exception as e:
             result = "Fatal exception in pyflakes: %s" % e
 
-        if isinstance(result, basestring):
+        if isinstance(result, STR):
             #something fatal occurred
             self.error = result
             self.log(noInfo=True)
@@ -329,7 +334,6 @@ class checker(object):
 
         for root, dirs, files in os.walk(top, topdown=True):
             #keep the name order
-            dirs.sort()
             files.sort()
             for name in files:
                 ignoreThis = False
@@ -345,7 +349,7 @@ class checker(object):
 
                 if ext in self.extensions:
                     #read file once, pass the content to checkers
-                    content = open(fullname, 'rb').read()
+                    content = open(fullname).read()
 
                     if 'checker_ignore_this_file' in content:
                         continue

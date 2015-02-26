@@ -6,7 +6,7 @@
 Implementation of the command-line I{pyflakes} tool.
 """
 
-import compiler, sys
+import sys
 import os
 import _ast
 
@@ -36,7 +36,7 @@ def check(codeString, filename):
             if sys.version_info[:2] == (2, 4):
                 raise SyntaxError(None)
             raise
-    except (SyntaxError, IndentationError), value:
+    except (SyntaxError, IndentationError) as value:
         msg = value.args[0]
 
         (lineno, offset, text) = value.lineno, value.offset, value.text
@@ -46,7 +46,7 @@ def check(codeString, filename):
             # Avoid using msg, since for the only known case, it contains a
             # bogus message that claims the encoding the file declared was
             # unknown.
-            return  ["%s: problem decoding source" % (filename, )]
+            return  "%s: problem decoding source" % (filename, )
         else:
             line = text.splitlines()[-1]
 
@@ -58,13 +58,13 @@ def check(codeString, filename):
             if offset is not None:
                 result += '\n'+" " * offset+"^"
 
-        return [result]
+        return result
     else:
         # Okay, it's syntactically valid.  Now parse it into an ast and check
         # it.
         tree = compile(codeString, filename, "exec", _ast.PyCF_ONLY_AST)
         w = checker.Checker(tree, filename)
-        w.messages.sort(lambda a, b: cmp(a.lineno, b.lineno))
+        w.messages.sort(key=lambda x: x.lineno)
         return w.messages
 
 
@@ -75,8 +75,8 @@ def checkPath(filename):
     @return: the number of warnings printed
     """
     try:
-        return check(file(filename, 'U').read() + '\n', filename)
-    except IOError, msg:
+        return check(open(filename, 'U').read() + '\n', filename)
+    except IOError as msg:
         print >> sys.stderr, "%s: %s" % (filename, msg.args[1])
         return 1
 
