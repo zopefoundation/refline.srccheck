@@ -30,7 +30,7 @@ It will pinpoint the problems found.
   testing/bad.py
   --------------
     Tab found in file
-    9: 	print "there's a tab"
+    9: 	print("there's a tab")
        ^
   <BLANKLINE>
   testing/bad.py
