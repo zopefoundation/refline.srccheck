@@ -38,6 +38,10 @@ class BaseChecker(object):
     basename = None
     error = None
 
+    ignorefile = "##srccheck_ignore_file"
+    ignoreline = "##srccheck_ignore"
+    linecomment = '#'
+
     def log(self, lineidx=0, line=None, pos=None, noInfo=False):
         if not self.fnameprinted:
             # always slash please, for cross platform stability
@@ -58,8 +62,24 @@ class BaseChecker(object):
         if pos is not None:
             print("%s%s^" % (INDENT, ' ' * (len(lineidx) + pos)))
 
+    def linecheck(self, filename, lineidx, line):
+        return True
+
+    def linecommented(self, line):
+        return line.strip().startswith(self.linecomment)
+
     def check(self, filename, content, lines):
-        pass
+        if not content:
+            return
+        if self.ignorefile:
+            if self.ignorefile in content:
+                return
+        for lineidx, line in enumerate(lines):
+            if self.ignoreline:
+                if self.ignoreline in line:
+                    continue
+            if self.linecheck(filename, lineidx, line):
+                break
 
     def __call__(self, basename, filename, content, lines):
         self.fnameprinted = False
@@ -72,11 +92,10 @@ class BaseChecker(object):
 class TabChecker(BaseChecker):
     error = 'Tab found in file'
 
-    def check(self, filename, content, lines):
-        for lineidx, line in enumerate(lines):
-            if '\t' in line:
-                pos = line.index('\t')
-                self.log(lineidx, line, pos)
+    def linecheck(self, filename, lineidx, line):
+        if '\t' in line:
+            pos = line.index('\t')
+            self.log(lineidx, line, pos)
 
 VALIDCHARS = string.printable
 
@@ -84,41 +103,38 @@ VALIDCHARS = string.printable
 class NonAsciiChecker(BaseChecker):
     error = 'Non ASCII char found in line'
 
-    def check(self, filename, content, lines):
-        for lineidx, line in enumerate(lines):
-            for pos, c in enumerate(line):
-                if c not in VALIDCHARS:
-                    self.log(lineidx, line, pos)
-                    break
+    def linecheck(self, filename, lineidx, line):
+        for pos, c in enumerate(line):
+            if c not in VALIDCHARS:
+                self.log(lineidx, line, pos)
+                return True
 
 
 class BreakChecker(BaseChecker):
     error = 'Breakpoint found in line'
 
-    def check(self, filename, content, lines):
-        for lineidx, line in enumerate(lines):
-            if 'pdb.set_trace' in line \
-                and not (-1 < line.find('#') < line.find('pdb.set_trace')):
-                self.log(lineidx, line)
+    def linecheck(self, filename, lineidx, line):
+        if self.linecommented(line):
+            return
 
-            if 'from dbgp.client import brk; brk(' in line \
-                and not (-1 < line.find('#') < line.find('dbgp.client.brk')):
-                self.log(lineidx, line)
+        if 'pdb.set_trace' in line:
+            self.log(lineidx, line)
 
-            if 'import rpdb2; rpdb2.start_embedded_debugger' in line \
-                and not (-1 < line.find('#') < line.find(
-                'rpdb2.start_embedded_debugger')):
-                self.log(lineidx, line)
+        if 'from dbgp.client import brk; brk(' in line:
+            self.log(lineidx, line)
+
+        if 'import rpdb2; rpdb2.start_embedded_debugger' in line:
+            self.log(lineidx, line)
 
 
 class OpenInBrowserChecker(BaseChecker):
     error = 'openInBrowser found in line'
 
-    def check(self, filename, content, lines):
-        for lineidx, line in enumerate(lines):
-            if 'openInBrowser' in line \
-                and not (-1 < line.find('#') < line.find('openInBrowser')):
-                self.log(lineidx, line)
+    def linecheck(self, filename, lineidx, line):
+        if self.linecommented(line):
+            return
+        if 'openInBrowser' in line:
+            self.log(lineidx, line)
 
 
 class PyflakesChecker(BaseChecker):
@@ -142,6 +158,9 @@ class PyflakesChecker(BaseChecker):
     def check(self, filename, content, lines):
         if not content:
             return
+        if self.ignorefile:
+            if self.ignorefile in content:
+                return
         if "##ignore PyflakesChecker##" in content:
             return
 
@@ -166,12 +185,14 @@ class PyflakesChecker(BaseChecker):
 
 class ConsoleLogChecker(BaseChecker):
     error = 'Breakpoint found in line'
+    linecomment = '//'
 
-    def check(self, filename, content, lines):
-        for lineidx, line in enumerate(lines):
-            if 'console.log' in line \
-                and not (-1 < line.find('//') < line.find('console.log')):
-                self.log(lineidx, line)
+    def linecheck(self, filename, lineidx, line):
+        if self.linecommented(line):
+            return
+
+        if 'console.log' in line:
+            self.log(lineidx, line)
 
 
 class POChecker(BaseChecker):
