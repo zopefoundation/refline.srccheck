@@ -117,7 +117,7 @@ class BreakChecker(BaseChecker):
         if self.linecommented(line):
             return
 
-        if 'pdb.set_trace' in line:
+        if 'pdb.set_trace' in line:  # this is going to match ipdb too
             self.log(lineidx, line)
 
         if 'from dbgp.client import brk; brk(' in line:
