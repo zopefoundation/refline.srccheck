@@ -179,8 +179,10 @@ class PyflakesChecker(BaseChecker):
             for warning in result:
                 if ('undefined name' in warning.message
                     and not 'unable to detect undefined names' in warning.message):
-                    self.error = warning.message % warning.message_args
-                    self.log(warning.lineno - 1, lines[warning.lineno - 1])
+                    ln = lines[warning.lineno - 1]
+                    if not self.ignoreline in ln:
+                        self.error = warning.message % warning.message_args
+                        self.log(warning.lineno - 1, ln)
 
 
 class ConsoleLogChecker(BaseChecker):

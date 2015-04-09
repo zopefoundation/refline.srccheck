@@ -4,7 +4,7 @@ CHANGES
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- `PyflakesChecker`: fix: ignored ##srccheck_ignore
 
 
 0.7.1 (2015-02-26)
