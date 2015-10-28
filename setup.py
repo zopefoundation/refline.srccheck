@@ -22,7 +22,7 @@ def read(*rnames):
 
 setup(
     name="refline.srccheck",
-    version='0.8.0',
+    version='0.8.1.dev0',
     url="http://pypi.python.org/pypi/refline.srccheck/",
     install_requires=[
         'setuptools',
