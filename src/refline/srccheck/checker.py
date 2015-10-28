@@ -38,8 +38,8 @@ class BaseChecker(object):
     basename = None
     error = None
 
-    ignorefile = "##srccheck_ignore_file"
-    ignoreline = "##srccheck_ignore"
+    ignorefile = "# srccheck_ignore_file"
+    ignoreline = "# srccheck_ignore"
     linecomment = '#'
 
     def log(self, lineidx=0, line=None, pos=None, noInfo=False):
@@ -161,7 +161,7 @@ class PyflakesChecker(BaseChecker):
         if self.ignorefile:
             if self.ignorefile in content:
                 return
-        if "##ignore PyflakesChecker##" in content:
+        if "# ignore PyflakesChecker #" in content:
             return
 
         content = self.fixcontent(lines)
