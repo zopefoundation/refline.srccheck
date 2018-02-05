@@ -375,7 +375,8 @@ class checker(object):
 
                 if ext in self.extensions:
                     #read file once, pass the content to checkers
-                    content = open(fullname).read()
+                    with open(fullname) as f:
+                        content = f.read()
 
                     if 'checker_ignore_this_file' in content:
                         continue
