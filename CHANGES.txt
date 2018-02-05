@@ -4,7 +4,8 @@ CHANGES
 0.8.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Make sure to close open files
+- Official Python 3 support
 
 
 0.8.0 (2015-10-28)

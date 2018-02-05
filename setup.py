@@ -33,6 +33,7 @@ setup(
     extras_require=dict(
         test=(
             'zope.testing',
+            'zope.testrunner',
         ),
     ),
     packages=find_packages('src'),
@@ -56,9 +57,15 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope3'],
     zip_safe=False,
+    entry_points={'distutils.commands': 'ftest = zope.testrunner.eggsupport:ftest'}
     )
