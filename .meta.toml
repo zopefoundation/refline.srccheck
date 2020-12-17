@@ -1,0 +1,34 @@
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/pure-python
+[meta]
+template = "pure-python"
+commit-id = "81fb8ad78079644fef77a33034818d8e4442abef"
+
+[python]
+with-pypy = false
+with-legacy-python = true
+with-docs = false
+with-sphinx-doctests = false
+
+[coverage]
+fail-under = 64
+
+[coverage-run]
+additional-config = [
+    "omit =",
+    "    src/refline/srccheck/testing/ignored_bad.py",
+    ]
+
+[flake8]
+additional-config = [
+    "exclude =",
+    "    src/refline/srccheck/testing/ignored_bad.py",
+    "    src/refline/srccheck/testing/bad.py",
+    ]
+
+[manifest]
+additional-rules = [
+    "recursive-include src *.css",
+    "recursive-include src *.js",
+    "recursive-include src *.po",
+    ]
