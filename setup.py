@@ -20,6 +20,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
+
 setup(
     name="refline.srccheck",
     version='1.1.dev0',
@@ -48,12 +49,13 @@ setup(
         read('README.txt')
         + '\n\n' +
         read('CHANGES.txt')
-        ),
+    ),
     license='ZPL 2.1',
     keywords="zope zope3",
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
+        'Framework :: Zope :: 3',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
@@ -62,10 +64,15 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope :: 3'],
+    ],
     zip_safe=False,
-    entry_points={'distutils.commands': 'ftest = zope.testrunner.eggsupport:ftest'}
-    )
+    entry_points={
+        'distutils.commands': 'ftest = zope.testrunner.eggsupport:ftest'
+    }
+)

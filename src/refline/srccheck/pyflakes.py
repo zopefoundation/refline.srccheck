@@ -5,12 +5,13 @@
 """
 Implementation of the command-line I{pyflakes} tool.
 """
-
+from __future__ import print_function
 import sys
 import os
 import _ast
 
 checker = __import__('pyflakes.checker').checker
+
 
 def check(codeString, filename):
     """
@@ -46,7 +47,7 @@ def check(codeString, filename):
             # Avoid using msg, since for the only known case, it contains a
             # bogus message that claims the encoding the file declared was
             # unknown.
-            return  "%s: problem decoding source" % (filename, )
+            return "%s: problem decoding source" % (filename, )
         else:
             line = text.splitlines()[-1]
 
@@ -77,7 +78,7 @@ def checkPath(filename):
     try:
         return check(open(filename, 'U').read() + '\n', filename)
     except IOError as msg:
-        print >> sys.stderr, "%s: %s" % (filename, msg.args[1])
+        print("%s: %s" % (filename, msg.args[1]), file=sys.stderr)
         return 1
 
 
@@ -90,7 +91,8 @@ def main():
                 for dirpath, dirnames, filenames in os.walk(arg):
                     for filename in filenames:
                         if filename.endswith('.py'):
-                            warnings += checkPath(os.path.join(dirpath, filename))
+                            warnings += checkPath(
+                                os.path.join(dirpath, filename))
             else:
                 warnings += checkPath(arg)
     else:
