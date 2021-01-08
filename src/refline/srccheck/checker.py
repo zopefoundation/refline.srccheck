@@ -97,6 +97,7 @@ class TabChecker(BaseChecker):
             pos = line.index('\t')
             self.log(lineidx, line, pos)
 
+
 VALIDCHARS = string.printable
 
 
@@ -143,8 +144,8 @@ class PyflakesChecker(BaseChecker):
     def fixcontent(self, lines):
         if not lines:
             return ''
-        #pyflakes does not like CRLF linefeeds
-        #and files ending with comments
+        # pyflakes does not like CRLF linefeeds
+        # and files ending with comments
         idx = len(lines) - 1
         lastline = lines[idx].strip()
         while idx >= 1 and (lastline == '' or lastline.startswith('#')):
@@ -171,16 +172,17 @@ class PyflakesChecker(BaseChecker):
             result = "Fatal exception in pyflakes: %s" % e
 
         if isinstance(result, STR):
-            #something fatal occurred
+            # something fatal occurred
             self.error = result
             self.log(noInfo=True)
         else:
-            #there are messages
+            # there are messages
             for warning in result:
                 if ('undefined name' in warning.message
-                    and not 'unable to detect undefined names' in warning.message):
+                        and 'unable to detect undefined names'
+                            not in warning.message):
                     ln = lines[warning.lineno - 1]
-                    if not self.ignoreline in ln:
+                    if self.ignoreline not in ln:
                         self.error = warning.message % warning.message_args
                         self.log(warning.lineno - 1, ln)
 
@@ -229,11 +231,11 @@ class JPGChecker(BaseChecker):
 
         compressed = content.encode('zlib')
         ratio = len(compressed) / float(len(content) - 200)
-        #200= circa static header length
+        # 200= circa static header length
 
         if ratio < 0.8:
-            self.log(0, "Some other bloat found, compression ratio: %s" %ratio)
-            return
+            self.log(
+                0, "Some other bloat found, compression ratio: %s" % ratio)
 
 
 class PTFragmentNeedsDomain(BaseChecker):
@@ -241,15 +243,15 @@ class PTFragmentNeedsDomain(BaseChecker):
 
     def check(self, filename, content, lines):
         if '<html' in content:
-            #not a fragment
+            # not a fragment
             return
 
-        if not 'i18n:translate' in content:
-            #no translation
+        if 'i18n:translate' not in content:
+            # no translation
             return
 
-        if not 'i18n:domain' in content:
-            #bummer, here we go
+        if 'i18n:domain' not in content:
+            # bummer, here we go
             self.log(noInfo=True)
 
 
@@ -298,24 +300,24 @@ PY_CHECKS = [
     BreakChecker(),
     OpenInBrowserChecker(),
     PyflakesChecker(),
-    ]
+]
 PT_CHECKS = [
     TabChecker(),
     NonAsciiChecker(),
     ConsoleLogChecker(),
     PTFragmentNeedsDomain(),
-    ]
+]
 JS_CHECKS = [
     TabChecker(),
     NonAsciiChecker(),
     ConsoleLogChecker(),
-    ]
+]
 TXT_CHECKS = [
     TabChecker(),
     NonAsciiChecker(),
     BreakChecker(),
     OpenInBrowserChecker(),
-    ]
+]
 PO_CHECKS = [
     POChecker(),
 ]
@@ -359,7 +361,7 @@ class checker(object):
             top = os.path.dirname(self.module_or_path.__file__)
 
         for root, dirs, files in os.walk(top, topdown=True):
-            #keep the name order
+            # keep the name order
             files.sort()
             for name in files:
                 ignoreThis = False
@@ -374,7 +376,7 @@ class checker(object):
                 ext = ext.replace('.', '')
 
                 if ext in self.extensions:
-                    #read file once, pass the content to checkers
+                    # read file once, pass the content to checkers
                     with open(fullname) as f:
                         content = f.read()
 

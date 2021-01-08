@@ -11,11 +11,6 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""
-
-$Id: tests.py 130168 2013-03-26 23:51:48Z alga $
-"""
-import unittest
 import doctest
 import re
 
@@ -27,4 +22,4 @@ def test_suite():
         'README.txt',
         optionflags=doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS,
         checker=RENormalizing([(re.compile(u"u':'"), "':'")])
-        )
+    )
