@@ -24,7 +24,7 @@ def read(*rnames):
 setup(
     name="refline.srccheck",
     version='1.1.dev0',
-    url="http://pypi.python.org/pypi/refline.srccheck/",
+    url="https://github.com/zopefoundation/refline.srccheck",
     install_requires=[
         'setuptools',
         'pyflakes',
@@ -43,7 +43,7 @@ setup(
     namespace_packages=['refline'],
 
     author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.org',
+    author_email='zope@zope.org',
     description="Source checking/linting tool",
     long_description=(
         read('README.txt')
@@ -72,7 +72,4 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
     ],
     zip_safe=False,
-    entry_points={
-        'distutils.commands': 'ftest = zope.testrunner.eggsupport:ftest'
-    }
 )
