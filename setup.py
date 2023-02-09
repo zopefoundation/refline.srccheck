@@ -23,7 +23,7 @@ def read(*rnames):
 
 setup(
     name="refline.srccheck",
-    version='1.1.dev0',
+    version='2.0.dev0',
     url="https://github.com/zopefoundation/refline.srccheck",
     install_requires=[
         'setuptools',
