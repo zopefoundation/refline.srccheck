@@ -6,9 +6,11 @@
 Implementation of the command-line I{pyflakes} tool.
 """
 from __future__ import print_function
-import sys
-import os
+
 import _ast
+import os
+import sys
+
 
 checker = __import__('pyflakes.checker').checker
 

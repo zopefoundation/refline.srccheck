@@ -14,15 +14,17 @@
 """Sourcecode checker, to be used in unittests
 """
 
+import fnmatch
 import logging
 import os
 import os.path
 import string
-import polib
-import fnmatch
 
+import polib
 from cssutils import parse
+
 from refline.srccheck import pyflakes
+
 
 INDENT = '  '
 
