@@ -27,6 +27,7 @@ setup(
     name="refline.srccheck",
     version='2.0.dev0',
     url="https://github.com/zopefoundation/refline.srccheck",
+    python_requires='>=3.7',
     install_requires=[
         'setuptools',
         'pyflakes',
@@ -45,7 +46,7 @@ setup(
     namespace_packages=['refline'],
 
     author='Zope Foundation and Contributors',
-    author_email='zope@zope.org',
+    author_email='zope-dev@zope.dev',
     description="Source checking/linting tool",
     long_description=(
         read('README.txt')

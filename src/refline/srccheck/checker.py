@@ -28,13 +28,8 @@ from refline.srccheck import pyflakes
 
 INDENT = '  '
 
-try:
-    STR = basestring   # Py2
-except NameError:
-    STR = str          # Py3
 
-
-class BaseChecker(object):
+class BaseChecker:
     fnameprinted = False
     filename = None
     basename = None
@@ -54,15 +49,15 @@ class BaseChecker(object):
             print('-' * len(filename))
             self.fnameprinted = True
 
-        print("%s%s" % (INDENT, self.error))
+        print("{}{}".format(INDENT, self.error))
 
         if noInfo:
             return
 
         lineidx = str(lineidx + 1) + ': '
-        print("%s%s%s" % (INDENT, lineidx, line))
+        print("{}{}{}".format(INDENT, lineidx, line))
         if pos is not None:
-            print("%s%s^" % (INDENT, ' ' * (len(lineidx) + pos)))
+            print("{}{}^".format(INDENT, ' ' * (len(lineidx) + pos)))
 
     def linecheck(self, filename, lineidx, line):
         return True
@@ -173,7 +168,7 @@ class PyflakesChecker(BaseChecker):
         except Exception as e:
             result = "Fatal exception in pyflakes: %s" % e
 
-        if isinstance(result, STR):
+        if isinstance(result, str):
             # something fatal occurred
             self.error = result
             self.log(noInfo=True)
@@ -257,7 +252,7 @@ class PTFragmentNeedsDomain(BaseChecker):
             self.log(noInfo=True)
 
 
-class CSSLogger(object):
+class CSSLogger:
     # this is a fake logger that redirects the actual logging calls to us
 
     def __init__(self, checker):
@@ -345,7 +340,7 @@ CHECKS = {
 }
 
 
-class checker(object):
+class checker:
     checks = None
     extensions = None
 
@@ -357,7 +352,7 @@ class checker(object):
         self.ignoreFiles = ignoreFiles
 
     def run(self):
-        if isinstance(self.module_or_path, STR):
+        if isinstance(self.module_or_path, str):
             top = self.module_or_path
         else:
             top = os.path.dirname(self.module_or_path.__file__)
