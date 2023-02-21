@@ -30,13 +30,13 @@ It will pinpoint the problems found.
   testing/bad.py
   --------------
     Tab found in file
-    9: 	print("there's a tab")
-       ^
+    10: 	print("there's a tab")
+        ^
   <BLANKLINE>
   testing/bad.py
   --------------
     undefined name 'bar'
-    6:     foo = bar
+    7:     foo = bar
   <BLANKLINE>
   testing/some.js
   ---------------

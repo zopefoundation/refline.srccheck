@@ -21,5 +21,5 @@ def test_suite():
     return doctest.DocFileSuite(
         'README.txt',
         optionflags=doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS,
-        checker=RENormalizing([(re.compile(u"u':'"), "':'")])
+        checker=RENormalizing([(re.compile("u':'"), "':'")])
     )

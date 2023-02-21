@@ -14,7 +14,9 @@
 """Setup for refline.srccheck package
 """
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 def read(*rnames):
@@ -23,8 +25,9 @@ def read(*rnames):
 
 setup(
     name="refline.srccheck",
-    version='1.1.dev0',
+    version='2.0.dev0',
     url="https://github.com/zopefoundation/refline.srccheck",
+    python_requires='>=3.7',
     install_requires=[
         'setuptools',
         'pyflakes',
@@ -43,7 +46,7 @@ setup(
     namespace_packages=['refline'],
 
     author='Zope Foundation and Contributors',
-    author_email='zope@zope.org',
+    author_email='zope-dev@zope.dev',
     description="Source checking/linting tool",
     long_description=(
         read('README.txt')
@@ -59,14 +62,12 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Zope Public License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',

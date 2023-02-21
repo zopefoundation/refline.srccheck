@@ -1,14 +1,14 @@
-
 # this is a !!MODIFIED!!! version of the original pyflakes script
 # this one returns the warnings instead of printing them to stdout
 
 """
 Implementation of the command-line I{pyflakes} tool.
 """
-from __future__ import print_function
-import sys
-import os
+
 import _ast
+import os
+import sys
+
 
 checker = __import__('pyflakes.checker').checker
 
@@ -29,14 +29,7 @@ def check(codeString, filename):
     # Since compiler.parse does not reliably report syntax errors, use the
     # built in compiler first to detect those.
     try:
-        try:
-            compile(codeString, filename, "exec")
-        except MemoryError:
-            # Python 2.4 will raise MemoryError if the source can't be
-            # decoded.
-            if sys.version_info[:2] == (2, 4):
-                raise SyntaxError(None)
-            raise
+        compile(codeString, filename, "exec")
     except (SyntaxError, IndentationError) as value:
         msg = value.args[0]
 
@@ -47,7 +40,7 @@ def check(codeString, filename):
             # Avoid using msg, since for the only known case, it contains a
             # bogus message that claims the encoding the file declared was
             # unknown.
-            return "%s: problem decoding source" % (filename, )
+            return "{}: problem decoding source".format(filename)
         else:
             line = text.splitlines()[-1]
 
@@ -76,9 +69,9 @@ def checkPath(filename):
     @return: the number of warnings printed
     """
     try:
-        return check(open(filename, 'U').read() + '\n', filename)
-    except IOError as msg:
-        print("%s: %s" % (filename, msg.args[1]), file=sys.stderr)
+        return check(open(filename).read() + '\n', filename)
+    except OSError as msg:
+        print("{}: {}".format(filename, msg.args[1]), file=sys.stderr)
         return 1
 
 

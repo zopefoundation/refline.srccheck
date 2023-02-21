@@ -2,6 +2,7 @@
 
 import os
 
+
 def doit():
     foo = bar
 
